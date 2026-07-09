@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile – VibeApp</title>
+  <meta name="description" content="View user profile on VibeApp – posts, followers, and following.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Background orbs -->
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast-container"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="navbar-inner">
+      <a href="feed.html" class="navbar-logo gradient-text">⚡ VibeApp</a>
+
+      <div class="navbar-actions">
+        <a href="feed.html" class="nav-link">🏠 Home</a>
+        <button class="btn btn-ghost btn-sm" id="btn-logout" aria-label="Logout">Sign Out</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Profile Page -->
+  <div class="profile-page z-above">
+
+    <!-- Cover -->
+    <div class="profile-cover" aria-hidden="true">
+      <div class="profile-cover-inner"></div>
+    </div>
+
+    <!-- Info Card -->
+    <div class="card profile-info-card">
+      <div class="profile-top">
+        <!-- Avatar -->
+        <div class="profile-avatar-wrap">
+          <div id="profile-avatar" aria-label="Profile picture"></div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="flex gap-8">
+          <button id="btn-follow" class="btn btn-primary btn-sm hidden" aria-label="Follow user">Follow</button>
+          <button id="btn-edit-profile" class="btn btn-ghost btn-sm hidden" aria-label="Edit profile">✏️ Edit Profile</button>
+        </div>
+      </div>
+
+      <!-- Name & bio -->
+      <h1 class="profile-name" id="profile-name">Loading…</h1>
+      <p class="profile-handle text-muted" id="profile-handle">@…</p>
+      <p class="profile-bio" id="profile-bio"></p>
+
+      <!-- Stats -->
+      <div class="profile-stats" role="list" aria-label="Profile statistics">
+        <div class="stat" role="listitem" tabindex="0"
+          onclick="document.querySelector('[data-tab=posts]')?.click()">
+          <span class="stat-number" id="profile-posts-count">0</span>
+          <span class="stat-label">Posts</span>
+        </div>
+        <div class="stat" role="listitem" tabindex="0"
+          onclick="document.querySelector('[data-tab=followers]')?.click()">
+          <span class="stat-number" id="profile-followers">0</span>
+          <span class="stat-label">Followers</span>
+        </div>
+        <div class="stat" role="listitem" tabindex="0"
+          onclick="document.querySelector('[data-tab=following]')?.click()">
+          <span class="stat-number" id="profile-following">0</span>
+          <span class="stat-label">Following</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="profile-tabs" role="tablist" aria-label="Profile tabs">
+      <button class="profile-tab active" data-tab="posts" role="tab" aria-selected="true">Posts</button>
+      <button class="profile-tab" data-tab="followers" role="tab" aria-selected="false">Followers</button>
+      <button class="profile-tab" data-tab="following" role="tab" aria-selected="false">Following</button>
+    </div>
+
+    <!-- Posts / Content -->
+    <div id="profile-posts" class="post-grid" role="main" aria-label="Profile content">
+      <div class="loader-wrap"><div class="spinner"></div></div>
+    </div>
+
+  </div><!-- /.profile-page -->
+
+  <!-- ── Edit Profile Modal ──────────────────── -->
+  <div id="edit-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="edit-modal-title">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title gradient-text" id="edit-modal-title">Edit Profile</h2>
+        <button class="modal-close" id="close-edit-modal" aria-label="Close modal">✕</button>
+      </div>
+
+      <form id="edit-profile-form" novalidate>
+        <!-- Avatar upload -->
+        <div class="input-group" style="margin-bottom:16px">
+          <label class="input-label">Profile Picture</label>
+          <div class="avatar-upload-wrap">
+            <div id="edit-avatar-preview" class="avatar avatar-lg" style="background:var(--gradient-main);display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;font-weight:700">✦</div>
+            <label class="avatar-upload-btn" for="edit-avatar-input" aria-label="Upload avatar">
+              📷
+              <span>Change Photo</span>
+              <input type="file" id="edit-avatar-input" accept="image/*" class="hidden" aria-label="Avatar file input">
+            </label>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+          <div class="input-group">
+            <label class="input-label" for="edit-firstname">First Name</label>
+            <input id="edit-firstname" type="text" class="input-field" placeholder="First name">
+          </div>
+          <div class="input-group">
+            <label class="input-label" for="edit-lastname">Last Name</label>
+            <input id="edit-lastname" type="text" class="input-field" placeholder="Last name">
+          </div>
+        </div>
+
+        <div class="input-group" style="margin-bottom:20px">
+          <label class="input-label" for="edit-bio">Bio</label>
+          <textarea id="edit-bio" class="input-field" placeholder="Tell the world about yourself…" rows="3" maxlength="300"></textarea>
+        </div>
+
+        <div class="flex gap-8">
+          <button type="submit" class="btn btn-primary" style="flex:1">Save Changes</button>
+          <button type="button" class="btn btn-ghost" id="cancel-edit" style="flex:1">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="js/profile.js"></script>
+  <script>
+    // Close modal on overlay click
+    document.getElementById('edit-modal')?.addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) e.currentTarget.classList.remove('active');
+    });
+    document.getElementById('cancel-edit')?.addEventListener('click', () => {
+      document.getElementById('edit-modal').classList.remove('active');
+    });
+    // Avatar preview
+    document.getElementById('edit-avatar-input')?.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const url = URL.createObjectURL(file);
+      const prev = document.getElementById('edit-avatar-preview');
+      prev.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt="Avatar preview">`;
+    });
+  </script>
+</body>
+</html>

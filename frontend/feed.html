@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feed – VibeApp</title>
+  <meta name="description" content="Your personalized VibeApp feed — posts from people you follow.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Background orbs -->
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast-container"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="navbar-inner">
+      <a href="feed.html" class="navbar-logo gradient-text">⚡ VibeApp</a>
+
+      <!-- Search -->
+      <div class="navbar-search" role="search">
+        <span class="navbar-search-icon" aria-hidden="true">🔍</span>
+        <input id="search-input" type="search" placeholder="Search people…" aria-label="Search users">
+        <div id="search-dropdown" class="search-dropdown" role="listbox" aria-label="Search results"></div>
+      </div>
+
+      <!-- Actions -->
+      <div class="navbar-actions">
+        <button class="nav-link active" aria-label="Home feed">
+          🏠 <span>Home</span>
+        </button>
+        <button class="nav-link" id="nav-profile" aria-label="My profile">
+          👤 <span>Profile</span>
+        </button>
+        <button class="btn btn-ghost btn-sm" id="btn-logout" aria-label="Logout">
+          Sign Out
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page -->
+  <div class="page-wrapper">
+    <div class="main-layout">
+
+      <!-- Left Sidebar -->
+      <aside class="sidebar-left" aria-label="Navigation sidebar">
+        <div id="sidebar-user" class="card sidebar-user">
+          <div class="avatar-slot avatar avatar-sm">?</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name">Loading…</div>
+            <div class="sidebar-user-handle">@…</div>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <button class="sidebar-nav-item active" onclick="document.getElementById('tab-feed').click()">
+            <span class="sidebar-nav-icon">🏠</span> Home
+          </button>
+          <button class="sidebar-nav-item" onclick="document.getElementById('tab-explore').click()">
+            <span class="sidebar-nav-icon">🌐</span> Explore
+          </button>
+          <button class="sidebar-nav-item" id="sidebar-profile-btn">
+            <span class="sidebar-nav-icon">👤</span> Profile
+          </button>
+          <button class="sidebar-nav-item" id="btn-logout-sidebar">
+            <span class="sidebar-nav-icon">🚪</span> Sign Out
+          </button>
+        </nav>
+      </aside>
+
+      <!-- Main Feed -->
+      <main aria-label="Post feed">
+        <!-- Tabs -->
+        <div class="flex gap-8" style="margin-bottom:16px" role="tablist">
+          <button class="btn btn-primary btn-sm active" id="tab-feed" role="tab" aria-selected="true">For You</button>
+          <button class="btn btn-ghost btn-sm" id="tab-explore" role="tab" aria-selected="false">Explore</button>
+        </div>
+
+        <!-- Create Post -->
+        <div class="card create-post-box" aria-label="Create a post">
+          <form id="create-post-form" novalidate>
+            <div class="create-post-row">
+              <div class="avatar avatar-md" style="background:var(--gradient-main);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700">⚡</div>
+              <textarea
+                id="post-content"
+                class="create-post-input"
+                placeholder="What's on your mind?"
+                aria-label="Post content"
+                maxlength="2000"
+              ></textarea>
+            </div>
+            <div id="image-preview"></div>
+            <div class="create-post-divider"></div>
+            <div class="create-post-footer">
+              <div class="create-post-actions">
+                <button type="button" class="create-post-action-btn" id="pick-image-btn" aria-label="Attach image" title="Add image">🖼️</button>
+                <input type="file" id="post-image-input" accept="image/*" class="hidden" aria-hidden="true">
+              </div>
+              <button type="submit" class="btn btn-primary btn-sm" id="btn-post">Post</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Posts Feed -->
+        <div id="feed-posts" class="feed-area" role="feed" aria-label="Posts">
+          <div class="loader-wrap"><div class="spinner"></div></div>
+        </div>
+      </main>
+
+      <!-- Right Sidebar – Suggestions -->
+      <aside class="sidebar-right" aria-label="Who to follow">
+        <div class="card who-to-follow">
+          <h2 class="section-title">Who to Follow</h2>
+          <div id="suggestions-list">
+            <div class="loader-wrap" style="padding:20px"><div class="spinner"></div></div>
+          </div>
+        </div>
+      </aside>
+
+    </div><!-- /.main-layout -->
+  </div><!-- /.page-wrapper -->
+
+  <script type="module" src="js/feed.js"></script>
+  <script>
+    // Wire sidebar logout and profile buttons (sync, before module loads)
+    document.getElementById('btn-logout-sidebar')?.addEventListener('click', () => {
+      document.getElementById('btn-logout')?.click();
+    });
+    document.getElementById('sidebar-profile-btn')?.addEventListener('click', () => {
+      document.getElementById('nav-profile')?.click();
+    });
+  </script>
+</body>
+</html>
