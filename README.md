@@ -90,7 +90,7 @@ The backend API will be available at: **http://127.0.0.1:8000**
 
 Open a new terminal and run:
 ```bash
-npx serve C:\Users\shikh\OneDrive\Documents\Desktop\Project\VibeApp\frontend
+npx serve frontend
 ```
 
 Then open: **http://localhost:3000**
@@ -172,8 +172,3 @@ Double-click `start.bat` in the `VibeApp/` folder.
 6. Add a comment
 7. Visit profile page — see follower counts update live
 
-## 📁 Project Location
-
-```
-C:\Users\shikh\OneDrive\Documents\Desktop\Project\VibeApp\
-```
